@@ -1,0 +1,53 @@
+## 11/15/2025
+
+    * Creating the structure of the project 
+
+    #########################################
+        .
+        ├── Makefile
+        ├── README.md
+        ├── bin
+        ├── doc
+        ├── include
+        │   ├── explorer.hpp
+        │   ├── robot.hpp
+        │   ├── simulation.hpp
+        │   ├── social.hpp
+        │   └── worker.hpp
+        ├── obj
+        ├── run.cpp
+        └── src
+            ├── explorer.cpp
+            ├── robot.cpp
+            ├── simulation.cpp
+            ├── social.cpp
+            └── worker.cpp
+
+        6 directories, 13 files
+
+    #########################################
+        
+    * Automating compilation with Makefile
+        * Makefile structure 
+            - Define Variables
+            - Create source/objects files and run object separatly 
+            - `make` to compile
+            - `make start` to execute the program
+            - Compilation of src files
+            - Compilation of run.cpp file
+            - `make clean` to clean obj and bin files
+            
+        
+
+## 19/11/2025
+
+    * Create Robot class (Abstract Class)
+        * Create social, worker and explorer
+    * Create simulation class
+
+##24/11/2025
+    * Correct some bugs 
+    * Complete simulation class
+    * Add Zone class (Task and ExplorationZone)
+    * Add enum for robot, task status, zone status 
+

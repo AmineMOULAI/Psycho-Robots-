@@ -1,0 +1,31 @@
+#include "../include/explorer.hpp"
+#include "common_types.hpp"
+
+void Explorer::update() { return;};
+void Explorer::interact(Robot& r) 
+{ 
+    std::cout << "Explorer interacts with "; 
+    switch (r.get_type())
+    {
+    case RobotType::Social:
+        std::cout << "Social\n";
+        break;
+    case RobotType::Worker:
+        std::cout << "Worker\n";
+        break;
+    case RobotType::Explorer:
+        std::cout << "Explorer\n";
+        break;
+
+    default:
+        break;
+    } 
+    std::cout << r.get_id() << " !\n";
+};
+void Explorer::move(){std::cout << "Explorer moves !" << "\n";};
+void Explorer::display()
+{
+    std::cout << "Explorer introduces itself !" << "\n";
+    Robot::display();
+    std::cout << "Explored Zones : " << this->get_exploredZones() << "\n\n";
+};
