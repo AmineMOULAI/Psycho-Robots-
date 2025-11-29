@@ -21,7 +21,9 @@ void Social::interact(Robot& r) {
     }  
     std::cout << r.get_id() << " !\n";
 };
-void Social::move(){std::cout << "Social moves !" << "\n";};
+
+void Social::move(){ Robot::move();};
+
 void Social::display()
 {
     std::cout << "Social introduces itself !" << "\n";

@@ -30,7 +30,7 @@ class Robot
 
         virtual void update()  = 0;
         virtual void interact(Robot&)  = 0;
-        virtual void move()  = 0;
+        virtual void move();
         virtual void display();
 
 };

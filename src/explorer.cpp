@@ -22,7 +22,7 @@ void Explorer::interact(Robot& r)
     } 
     std::cout << r.get_id() << " !\n";
 };
-void Explorer::move(){std::cout << "Explorer moves !" << "\n";};
+void Explorer::move(){ Robot::move();};
 void Explorer::display()
 {
     std::cout << "Explorer introduces itself !" << "\n";

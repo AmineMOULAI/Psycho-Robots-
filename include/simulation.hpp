@@ -23,6 +23,7 @@ class Simulation
 
     void init();
     void display_state();
+    void run_step();
 };
 
 

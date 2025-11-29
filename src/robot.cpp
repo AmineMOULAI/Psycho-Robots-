@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "../include/robot.hpp"
 #include "../include/social.hpp"
 #include "../include/worker.hpp"
@@ -29,4 +31,43 @@ void Robot::display()
     << "Stress : " << this->get_stress() << "\n" 
     << "Energy : " << this->get_energy() << "\n" 
     << "Curiosity : " << this->get_curiosity() << "\n";
+}
+
+void Robot::move()
+{
+    std::uniform_int_distribution<> dist_pos(0, G - 1);
+    std::uniform_int_distribution<> dist_dir(0, 3);
+    
+    static const Direction d[] = {
+        Direction::UP, 
+        Direction::DOWN, 
+        Direction::LEFT, 
+        Direction::RIGHT
+    };
+
+    Direction dir = d[dist_dir(gen)];
+    switch (dir)
+    {
+        case Direction::UP:{
+            if (this->pos.y > 0) this->pos.y--; 
+            break;
+        }
+            
+        case Direction::DOWN:{
+            if (this->pos.y < G - 1) this->pos.y++; 
+            break;
+        }
+        case Direction::LEFT:{
+            if (this->pos.x > 0) this->pos.x--; 
+            break;
+
+        }
+        case Direction::RIGHT:{
+            if (this->pos.x < G - 1) this->pos.x++; 
+            break;
+
+        }
+        default:
+            break;
+    }   
 }

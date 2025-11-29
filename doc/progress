@@ -45,9 +45,13 @@
         * Create social, worker and explorer
     * Create simulation class
 
-##24/11/2025
+##  24/11/2025
     * Correct some bugs 
     * Complete simulation class
     * Add Zone class (Task and ExplorationZone)
     * Add enum for robot, task status, zone status 
+
+##  29/11/2025
+    * Create Simulation Robots, Tasks and Exploration Zone 
+    * Display the state of simulation
 

@@ -21,7 +21,7 @@ void Worker::interact(Robot& r) {
     }  
     std::cout << r.get_id() << " !\n";
 };
-void Worker::move(){std::cout << "Worker moves !" << "\n";};
+void Worker::move(){Robot::move();};
 void Worker::display()
 {
     std::cout << "Worker introduces itself !" << "\n";

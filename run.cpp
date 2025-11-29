@@ -1,6 +1,6 @@
 #include <iostream>
 #include <random>
-
+#include <unistd.h>
 
 #include "robot.hpp"
 #include "social.hpp"
@@ -14,9 +14,9 @@
 
 int main()
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(0, G);
+    /*std::random_device rd;
+    std::mt19937 gen(rd());*/
+    std::uniform_int_distribution<> dist(0, G - 1);
 
     std::cout << "############## PSYCHOROBOTS PROJECT #############\n\n";
     /*pos_t p1 = {1, 1};
@@ -43,10 +43,15 @@ int main()
     //w1.interact(s1);
 
     Simulation game(G, G);
-
-    game.init();
-    game.display_state();
-
     
+    game.init();
+    while(1)
+    {
+        game.run_step();
+        system("clear");
+        game.display_state();
+
+        sleep(1);
+    }
     
 }

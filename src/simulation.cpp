@@ -21,8 +21,8 @@ void Simulation::init()
 {
     std::cout << "Simulation initialized !" << "\n\n";
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    /*std::random_device rd;
+    std::mt19937 gen(rd());*/
     std::uniform_int_distribution<> dist_pos(0, G - 1);
     std::uniform_int_distribution<> dist_type(0, 2);
 
@@ -147,9 +147,11 @@ void Simulation::display_state()
     for (int i = 0; i < G; i++)
         std::cout << "##";
     std::cout << "###\n";
-
-    
-
-    
-    
 };
+
+void Simulation::run_step()
+{
+    for (Robot* r : this->robots){r->move();}; 
+    
+    
+}
