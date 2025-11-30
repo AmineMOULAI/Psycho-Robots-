@@ -25,7 +25,7 @@ struct Postion
 enum class RobotType {Social, Worker, Explorer};
 enum class TaskStatus {Pending, InProgress, Completed};
 enum class ZoneStatus {Visited, NotVisited};
-enum class Direction {UP, DOWN, LEFT, RIGHT};
+enum class Direction {N, S, E, W, NE, SE, NW, SW};
  
 
 

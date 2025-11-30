@@ -36,36 +36,71 @@ void Robot::display()
 void Robot::move()
 {
     std::uniform_int_distribution<> dist_pos(0, G - 1);
-    std::uniform_int_distribution<> dist_dir(0, 3);
+    std::uniform_int_distribution<> dist_dir(0, 7);
     
     static const Direction d[] = {
-        Direction::UP, 
-        Direction::DOWN, 
-        Direction::LEFT, 
-        Direction::RIGHT
+        Direction::N, 
+        Direction::S, 
+        Direction::E, 
+        Direction::W,
+        Direction::NE, 
+        Direction::SE, 
+        Direction::NE, 
+        Direction::SW,
     };
 
     Direction dir = d[dist_dir(gen)];
     switch (dir)
     {
-        case Direction::UP:{
+        case Direction::N:{
             if (this->pos.y > 0) this->pos.y--; 
             break;
         }
-            
-        case Direction::DOWN:{
+        case Direction::S:{
             if (this->pos.y < G - 1) this->pos.y++; 
             break;
         }
-        case Direction::LEFT:{
+        case Direction::E:{
+            if (this->pos.x < G - 1) this->pos.x++; 
+            break;
+        }
+        case Direction::W:{
             if (this->pos.x > 0) this->pos.x--; 
+            break;
+        }
+        case Direction::NE:{
+            if (this->pos.y > 0 && this->pos.x < G - 1)
+            {
+                this->pos.x++; 
+                this->pos.y--; 
+            } 
+            break;
+        }
+            
+        case Direction::SE:{
+            if (this->pos.x < G - 1 && this->pos.y < G - 1)
+            {
+                this->pos.x++; 
+                this->pos.y++; 
+            } 
+            break;
+        }
+        case Direction::NW:{
+            if (this->pos.x > 0 && this->pos.y > 0)
+            {
+                this->pos.x--; 
+                this->pos.y--; 
+            }
             break;
 
         }
-        case Direction::RIGHT:{
-            if (this->pos.x < G - 1) this->pos.x++; 
+        case Direction::SW:{
+            if (this->pos.x > 0 && this->pos.y < G - 1)
+            {
+                this->pos.x--; 
+                this->pos.y++;
+            } 
             break;
-
         }
         default:
             break;

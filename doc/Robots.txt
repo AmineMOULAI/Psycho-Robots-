@@ -1,0 +1,30 @@
+
+## Robot
+
+    * A robot is the main entity in the simulation, having attributs and methodes.
+    * We have 3 types of robots:
+        * Social : A robot which is caracterized with its ability to interact with other other without any difficulties
+            *  It is less stressed, more energetic and curious to discover other robots in the environemment.
+        * Worker : A robot which is stressed by work - tasks that it tries to complete during its existance in the simulation.
+            * More stressed and more energetic than others.
+        * Explorer : A chill Robot... it is made just to discover and to share informations.
+            * Chill , more curious and energetic to travel all around the environemment
+
+
+## Behaviour 
+
+    * Robot : 
+        * It can move all around the environemment.
+            - Mouvement is made according to the state of the robot 
+                * A stressful robot tries to isolate itself and AVOID others.
+                * An exhausted robot tries to rest in order to regain energy and continue to move.
+                * A curious robot never stops exploring the environemment. 
+        * It can interact in a certain way with other robots.
+    
+        * Social : Find a robot and try to interact with it 
+            * Mouvement based on the position of other robots 
+                - Acheive the closest robot to make an interact 
+            * State updated with interactions it made.
+                - Stress decreases after an interaction 
+                - Curiosity increases with other robots.
+                - Energy increases with others while it's decreasing with mouvement.
