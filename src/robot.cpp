@@ -109,12 +109,18 @@ void Robot::move()
 
 void Robot::update()
 {
-    if(this->get_energy() > REST)
+
+    if(this->get_energy() >= REST && this->get_sleep() == 0)
     {
         this->move();
         this->energy -= MOVE_COST;
+        this->sleep = 0;
     }else 
     {
-        if (this->get_energy() < REST + SLEEP) this->energy += REST_REWARD;
+        if (this->get_sleep() <= SLEEP)
+        {
+            this->energy += REST_REWARD;
+            this->sleep++;
+        }else{this->sleep = 0;}
     }
 }

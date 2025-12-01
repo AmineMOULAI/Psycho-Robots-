@@ -110,7 +110,7 @@ void Simulation::display_state()
                 grid[this->robots[i]->get_pos().x][this->robots[i]->get_pos().y] = 'W';
                 break;
             case RobotType::Explorer:
-                grid[this->robots[i]->get_pos().x][this->robots[i]->get_pos().y] = 'S';
+                grid[this->robots[i]->get_pos().x][this->robots[i]->get_pos().y] = 'E';
                 break;
             default:
                 break;

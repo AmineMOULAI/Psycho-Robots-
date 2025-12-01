@@ -12,12 +12,13 @@ class Robot
         RobotType type;
         pos_t pos;
         int stress, energy, curiosity;
+        int sleep;
 
         //friend std::ostream& operator<<(std::ostream& out, const Robot&);
     
     public:
         // Constructor
-        Robot(RobotType rname, pos_t p, int s, int e, int c) : r_id(++id), type(rname), pos(p), stress(s), energy(e), curiosity(c){};
+        Robot(RobotType rname, pos_t p, int s, int e, int c) : r_id(++id), type(rname), pos(p), stress(s), energy(e), curiosity(c), sleep(0){};
         virtual ~Robot() = default;
 
         // Getters
@@ -27,6 +28,7 @@ class Robot
         int get_stress() const {return stress;};
         int get_energy() const {return energy;};
         int get_curiosity() const {return curiosity;};
+        int get_sleep() const {return sleep;};
 
         virtual void update();
         virtual void interact(Robot&)  = 0;
