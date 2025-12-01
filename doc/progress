@@ -55,3 +55,7 @@
     * Create Simulation Robots, Tasks and Exploration Zone 
     * Display the state of simulation
 
+## 30/11/2025
+    * Move the Robots randomly, without purpose, in 4 directions (N, S, E, W)
+    * Update movement, add 4 directions (N, S, E, W, NE, NW, SE, SW)
+
