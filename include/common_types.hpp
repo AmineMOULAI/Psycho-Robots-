@@ -12,6 +12,15 @@ constexpr int MIN_TASKS = 5;
 constexpr int MAX_TASKS = 20;
 constexpr int TASKS_PER_WORKER = 3;
 
+
+// Movement const
+constexpr int MOVE_COST = 2;
+constexpr int REST = 20;
+constexpr int REST_REWARD = 1;
+constexpr int SLEEP = 15;
+
+
+
 // Random 
 extern std::mt19937 gen;
 

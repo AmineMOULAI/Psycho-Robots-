@@ -1,7 +1,7 @@
 #include "../include/social.hpp"
 #include "common_types.hpp"
 
-void Social::update() { return;};
+void Social::update() { Robot::update();};
 void Social::interact(Robot& r) { 
     std::cout << "Social interacts with "; 
     switch (r.get_type())
@@ -26,7 +26,6 @@ void Social::move(){ Robot::move();};
 
 void Social::display()
 {
-    std::cout << "Social introduces itself !" << "\n";
     Robot::display();
     std::cout << "Connected robots : " << this->get_connectedRobots() << "\n\n";
 };

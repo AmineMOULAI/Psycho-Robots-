@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <unistd.h>
 
 #include "../include/robot.hpp"
 #include "../include/social.hpp"
@@ -75,8 +76,7 @@ void Robot::move()
                 this->pos.y--; 
             } 
             break;
-        }
-            
+        }     
         case Direction::SE:{
             if (this->pos.x < G - 1 && this->pos.y < G - 1)
             {
@@ -105,4 +105,16 @@ void Robot::move()
         default:
             break;
     }   
+}
+
+void Robot::update()
+{
+    if(this->get_energy() > REST)
+    {
+        this->move();
+        this->energy -= MOVE_COST;
+    }else 
+    {
+        if (this->get_energy() < REST + SLEEP) this->energy += REST_REWARD;
+    }
 }

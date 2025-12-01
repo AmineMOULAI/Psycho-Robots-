@@ -1,7 +1,7 @@
 #include "../include/worker.hpp"
 #include "common_types.hpp"
 
-void Worker::update() { return;};
+void Worker::update() { Robot::update();};
 void Worker::interact(Robot& r) { 
     std::cout << "Worker interacts with ";
     switch (r.get_type())
@@ -24,7 +24,6 @@ void Worker::interact(Robot& r) {
 void Worker::move(){Robot::move();};
 void Worker::display()
 {
-    std::cout << "Worker introduces itself !" << "\n";
     Robot::display();
     std::cout << "Completed tasks : " << this->get_completedTasks() << "\n\n";
 };

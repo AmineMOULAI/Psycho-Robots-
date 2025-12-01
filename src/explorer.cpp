@@ -1,7 +1,7 @@
 #include "../include/explorer.hpp"
 #include "common_types.hpp"
 
-void Explorer::update() { return;};
+void Explorer::update() { Robot::update();};
 void Explorer::interact(Robot& r) 
 { 
     std::cout << "Explorer interacts with "; 
@@ -25,7 +25,6 @@ void Explorer::interact(Robot& r)
 void Explorer::move(){ Robot::move();};
 void Explorer::display()
 {
-    std::cout << "Explorer introduces itself !" << "\n";
     Robot::display();
     std::cout << "Explored Zones : " << this->get_exploredZones() << "\n\n";
 };

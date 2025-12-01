@@ -28,7 +28,7 @@ class Robot
         int get_energy() const {return energy;};
         int get_curiosity() const {return curiosity;};
 
-        virtual void update()  = 0;
+        virtual void update();
         virtual void interact(Robot&)  = 0;
         virtual void move();
         virtual void display();

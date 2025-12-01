@@ -147,11 +147,16 @@ void Simulation::display_state()
     for (int i = 0; i < G; i++)
         std::cout << "##";
     std::cout << "###\n";
+
+    for (Robot* r : this->robots)
+    {
+        r->display();
+        std::cout << "\n";
+    }
+    
 };
 
 void Simulation::run_step()
 {
-    for (Robot* r : this->robots){r->move();}; 
-    
-    
+    for (Robot* r : this->robots){r->update();}; 
 }
