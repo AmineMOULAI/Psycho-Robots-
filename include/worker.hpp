@@ -11,12 +11,12 @@ class Worker : public Robot
     private:
         int completedTasks;
     public:
-        Worker(pos_t p) : Robot(RobotType::Worker, p, 50, 100, 30), completedTasks(0) {};
+        Worker(pos_t p) : Robot(RobotType::Worker, p, WORKER_STRESS, WORKER_ENERGY, WORKER_CURIOSITY), completedTasks(0) {};
         ~Worker(){};
 
         int get_completedTasks() const {return completedTasks;};
 
-        void update() override;
+        void update(std::vector<Robot*>& allRobots) override;
         void interact(Robot& r) override;
         void move() override;
         void display() override;

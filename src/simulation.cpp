@@ -35,8 +35,8 @@ void Simulation::init()
 
     
     std::cout << "Enter number of Robots : " ;
-    
     std::cin >> nbRobots;
+    
     int nbE = 0, nbW = 0;
     // Create Robots
     for (int i = 0; i < nbRobots; i++)

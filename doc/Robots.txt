@@ -23,7 +23,20 @@
     
         * Social : Find a robot and try to interact with it 
             * Mouvement based on the position of other robots 
-                - Acheive the closest robot to make an interact 
+                - Acheive the closest robot to make an interact
+                
+            ########################################################
+
+                > Social examines the environemment (radius of 10 pos)
+                > Save all Robots spotted 
+                > Choose one  
+                    > Priority to a social robot
+                    > The closest one to avoid expending energy on travel
+                    > Sufficient energy 
+                    > High curiosity
+
+            #######################################################
+            
             * State updated with interactions it made.
                 - Stress decreases after an interaction 
                 - Curiosity increases with other robots.
