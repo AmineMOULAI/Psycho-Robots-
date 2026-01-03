@@ -16,10 +16,13 @@ class Worker : public Robot
 
         int get_completedTasks() const {return completedTasks;};
 
+        // Call/Response Protocol
+        bool respondTo(Robot& caller) override;
+
         void update(std::vector<Robot*>& allRobots) override;
         void interact(Robot& r) override;
         void move() override;
-        void display() override;
+        void display() const override;
 };
 
 

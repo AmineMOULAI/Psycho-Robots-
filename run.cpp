@@ -25,7 +25,7 @@ int main()
     pos_t p2 = {3, 1};
     Robot worker("Worker", p2, 60, 80, 20);
     std::cout << worker;
-    */
+    
     pos_t p1 = {dist(gen), dist(gen)};
     Social s1(p1);
     //s1.display();
@@ -41,7 +41,7 @@ int main()
 
     //s1.interact(e1);
     //w1.interact(s1);
-
+    */
     Simulation game(G, G);
     
     game.init();
@@ -52,6 +52,7 @@ int main()
         game.display_state();
 
         sleep(1);
+        
     }
     
 }

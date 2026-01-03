@@ -5,7 +5,7 @@
 
 
 // Simulation Constants
-constexpr int G = 20;
+constexpr int G = 10;
 
 // Social constants
 constexpr int SOCIAL_STRESS = 20;
@@ -36,12 +36,15 @@ constexpr int MAX_TASKS = 20;
 // Movement const
 constexpr int MOVE_COST = 2;
 constexpr int REST = 20;
-constexpr int REST_REWARD = 1;
+constexpr int REST_REWARD = 2;
 constexpr int SLEEP = 15;
 
 // Interactions Constants
-constexpr double RADIUS = 10.;
+constexpr double RADIUS = 5.;
 
+constexpr double INTERACTION_DISTANCE = 1.;
+constexpr int INTERACTION_TIME = 5;
+constexpr int TIME_TO_WAIT = 5;
 
 // Random 
 extern std::mt19937 gen;
@@ -66,6 +69,10 @@ struct NearbyRobot
     double distance;
     bool SameType;    
 }typedef NearbyRobot_t;
+
+enum class CallState {Idle, Waiting, MoveTo};
+enum class RobotState {Free, InCall, Busy};
+
 
 
 

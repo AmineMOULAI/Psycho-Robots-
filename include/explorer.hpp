@@ -16,10 +16,14 @@ class Explorer : public Robot
 
     int get_exploredZones() const {return exploredZones.size();};
 
+    // Call/Response Protocol
+    bool respondTo(Robot& caller) override;
+
+
     void update(std::vector<Robot*>& allRobots) override;
     void interact(Robot& r) override;
     void move() override;
-    void display() override;
+    void display() const override;
 };
 
 

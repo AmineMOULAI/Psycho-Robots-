@@ -12,6 +12,8 @@
 #include "../include/explorer.hpp"
 #include "../include/zone.hpp"
 #include "../include/common_types.hpp"
+#include "display_utils.hpp"
+
 
 
 
@@ -94,69 +96,46 @@ void Simulation::init()
     
 };
 
-void Simulation::display_state() 
-{
-    std::vector<std::string> grid(G, std::string(G, '.'));
+void Simulation::display_state() {
+    DisplayUtils::clearScreen();
     
-    // Loading Robots...
-    for (std::size_t i = 0; i < this->robots.size(); i++)
-    {
-        switch (this->robots[i]->get_type())
-        {
-            case RobotType::Social:
-                grid[this->robots[i]->get_pos().x][this->robots[i]->get_pos().y] = 'S';
-                break;
-            case RobotType::Worker:
-                grid[this->robots[i]->get_pos().x][this->robots[i]->get_pos().y] = 'W';
-                break;
-            case RobotType::Explorer:
-                grid[this->robots[i]->get_pos().x][this->robots[i]->get_pos().y] = 'E';
-                break;
-            default:
-                break;
-        }
-    }
-
-    // Loading Tasks...
-    for (std::size_t i = 0; i < this->tasks.size(); i++)
-    {
-        int x = this->tasks[i]->location.x;
-        int y = this->tasks[i]->location.y;
-        grid[x][y] = 'T';    
-
-    }
-    // Loading Exploration Zones
-    for (std::size_t i = 0; i < this->explorationZone.size(); i++)
-    {
-        int x = this->explorationZone[i]->location.x;
-        int y = this->explorationZone[i]->location.y;
-        grid[x][y] = 'Z';
+    // Display title
+    std::cout << Colors::BOLD << Colors::BRIGHT_CYAN 
+              << "╔════════════════════════════════════════════════════════╗\n"
+              << "║         PSYCHOROBOTS - SIMULATION DISPLAY             ║\n"
+              << "╚════════════════════════════════════════════════════════╝"
+              << Colors::RESET << "\n\n";
+    
+    // Display grid
+    DisplayUtils::displayGrid(G, G, robots, tasks, explorationZone);
+    
+    // Display legend
+    std::cout << "\n" << Colors::BRIGHT_WHITE << "LEGEND:" << Colors::RESET << "\n";
+    std::cout << "  " << Colors::BRIGHT_MAGENTA << "S" << Colors::RESET 
+              << " = Social Robot\n";
+    std::cout << "  " << Colors::BRIGHT_YELLOW << "W" << Colors::RESET 
+              << " = Worker Robot\n";
+    std::cout << "  " << Colors::BRIGHT_CYAN << "E" << Colors::RESET 
+              << " = Explorer Robot\n";
+    std::cout << "  " << Colors::RED << "T" << Colors::RESET 
+              << " = Task\n";
+    std::cout << "  " << Colors::GREEN << "Z" << Colors::RESET 
+              << " = Exploration Zone\n\n";
+    
+    // Display individual robot stats
+    std::cout << Colors::BOLD << Colors::BRIGHT_WHITE 
+              << "ROBOT DETAILS:" << Colors::RESET << "\n";
+    std::cout << Colors::WHITE << std::string(60, '─') << Colors::RESET << "\n";
+    for (Robot* r : robots) {
+        DisplayUtils::displayRobotStatus(r);
     }
     
-    
-    for (int i = 0; i < G; i++)
-        std::cout << "##";
-    std::cout << "###\n";
-    for (std::size_t i = 0; i < grid.size(); i++)
-    {
-        std::cout << "#";
-        for (std::size_t j = 0; j < grid[i].size(); j++)
-            std::cout << ' ' << grid[i][j];
-        std::cout << " #\n";
-    }
-    for (int i = 0; i < G; i++)
-        std::cout << "##";
-    std::cout << "###\n";
-
-    for (Robot* r : this->robots)
-    {
-        r->display();
-        std::cout << "\n";
-    }
-    
-};
+    // Display simulation stats
+    DisplayUtils::displayStats(robots);
+}
 
 void Simulation::run_step()
 {
-    for (Robot* r : this->robots){r->update();}; 
+    std::vector<Robot*> allRobots = this->get_robots();
+    for (Robot* r : this->robots){r->update(allRobots);}; 
 }

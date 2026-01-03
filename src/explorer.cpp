@@ -1,7 +1,14 @@
 #include "../include/explorer.hpp"
 #include "common_types.hpp"
 
-void Explorer::update() { Robot::update();};
+
+bool Explorer::respondTo(Robot& caller)
+{
+    return this->get_curiosity() > 50 && this->get_energy() > 20;
+}
+
+
+void Explorer::update(std::vector<Robot*>& allRobots) { Robot::update(allRobots);};
 void Explorer::interact(Robot& r) 
 { 
     std::cout << "Explorer interacts with "; 
@@ -23,7 +30,7 @@ void Explorer::interact(Robot& r)
     std::cout << r.get_id() << " !\n";
 };
 void Explorer::move(){ Robot::move();};
-void Explorer::display()
+void Explorer::display() const
 {
     Robot::display();
     std::cout << "Explored Zones : " << this->get_exploredZones() << "\n\n";

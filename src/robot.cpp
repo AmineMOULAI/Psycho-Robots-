@@ -9,7 +9,7 @@
 
 int Robot::id = 0;
 
-void Robot::display()
+void Robot::display() const
 {
     std::cout << "Name : ";
     switch (this->get_type())
@@ -35,7 +35,7 @@ void Robot::display()
 }
 
 void Robot::move()
-{
+{   
     std::uniform_int_distribution<> dist_pos(0, G - 1);
     std::uniform_int_distribution<> dist_dir(0, 7);
     
@@ -107,9 +107,10 @@ void Robot::move()
     }   
 }
 
-void Robot::update()
+void Robot::update(std::vector<Robot*>& allRobots)
 {
-
+    if (get_state() == RobotState::InCall) return;
+    
     if(this->get_energy() >= REST && this->get_sleep() == 0)
     {
         this->move();
