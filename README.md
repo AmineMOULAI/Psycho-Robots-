@@ -51,14 +51,6 @@ run.cpp   - Main entry point
 Makefile  - Build configuration
 ```
 
-## Configuration
-
-Key constants in `common_types.hpp`:
-- Grid: NxN
-- Tasks/Worker: 3
-- Zones/Explorer: 2
-- Interaction distance: 1.0
-
 ## Future
 
 - Persistence (save/load)
