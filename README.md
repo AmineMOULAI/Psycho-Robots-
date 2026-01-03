@@ -51,13 +51,6 @@ run.cpp   - Main entry point
 Makefile  - Build configuration
 ```
 
-## Future
-
-- Persistence (save/load)
-- Advanced AI learning
-- Team cooperation
-- GUI visualization
-
 ### Planned Features
 
 **Graphics & Visualization**
