@@ -11,7 +11,7 @@ Three robot types operate in a dynamic simulation:
 
 ## Key Features
 
-- 30x30 2D grid environment with random placement
+- NxN 2D grid environment with random placement
 - Task system (pending/completed)
 - Exploration zones to discover
 - Real-time ASCII visualization with detailed statistics
