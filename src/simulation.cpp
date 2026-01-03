@@ -97,8 +97,14 @@ void Simulation::init()
 };
 
 void Simulation::display_state() {
-    // Display split layout: left = info, right = grid
-    DisplayUtils::displaySplitLayout(G, G, robots, tasks, explorationZone, 40);
+    // Restore original display sequence: title, grid, legend, zones, tasks, robots, stats
+    DisplayUtils::displayTitle();
+    DisplayUtils::displayGrid(G, G, robots, tasks, explorationZone);
+    DisplayUtils::displayLegend();
+    DisplayUtils::displayZonesInfo(explorationZone);
+    DisplayUtils::displayTasksInfo(tasks);
+    DisplayUtils::displayAllRobots(robots);
+    DisplayUtils::displayStats(robots, explorationZone, tasks);
 }
 
 void Simulation::run_step()

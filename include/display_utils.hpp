@@ -108,8 +108,6 @@ private:
     static std::string getTaskStatusString(TaskStatus status);
     static std::string getZoneStatusColor(ZoneStatus status);
     static std::string getTaskStatusColor(TaskStatus status);
-    static std::string stripANSI(const std::string& s);
-    static int visibleLength(const std::string& s);
 };
 
 #endif
