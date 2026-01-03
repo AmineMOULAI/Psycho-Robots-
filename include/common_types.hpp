@@ -45,6 +45,7 @@ constexpr double RADIUS = 5.;
 constexpr double INTERACTION_DISTANCE = 1.;
 constexpr int INTERACTION_TIME = 5;
 constexpr int TIME_TO_WAIT = 5;
+constexpr int LEAVE = 10;
 
 // Random 
 extern std::mt19937 gen;

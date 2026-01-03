@@ -59,7 +59,7 @@ void Social::handle_call_protocol(Robot* target)
                 target->set_state(RobotState::Free);
     
                 set_socialState(CallState::Waiting);
-                set_waitTimer(10);
+                set_waitTimer(LEAVE);
                 set_hasTarget(false);
             }
             
