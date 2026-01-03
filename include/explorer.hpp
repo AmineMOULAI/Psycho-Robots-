@@ -13,11 +13,13 @@ class Explorer : public Robot
         std::vector<pos_t> exploredZones;
         std::vector<EZ_t*> knownZones;
         bool wantsNewEnvironment;
+        int leaveAttempts;
     public:
-        Explorer(pos_t p) : Robot(RobotType::Explorer, p, EXPLORER_STRESS, EXPLORER_ENERGY, EXPLORER_CURIOSITY), exploredZones{}, knownZones{}, wantsNewEnvironment(false) {};
+        Explorer(pos_t p) : Robot(RobotType::Explorer, p, EXPLORER_STRESS, EXPLORER_ENERGY, EXPLORER_CURIOSITY), exploredZones{}, knownZones{}, wantsNewEnvironment(false), leaveAttempts(0) {};
         ~Explorer(){};
 
     int get_exploredZones() const {return exploredZones.size();};
+    int get_leaveAttempts() const {return leaveAttempts;};
     bool get_wantsNewEnvironment() const { return wantsNewEnvironment; }
     const std::vector<EZ_t*>& get_knownZones() const { return knownZones; }
 

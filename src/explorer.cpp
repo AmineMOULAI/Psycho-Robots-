@@ -66,11 +66,19 @@ void Explorer::update(std::vector<Robot*>& allRobots)
 {
     Robot::update(allRobots);
     
-    // Explorers want to leave if they have explored all zones and curiosity is satisfied
-    // or if energy is too low
-    if ((wantsNewEnvironment && get_curiosity() < 30) || get_energy() <= 0)
+    // Explorers want to leave if they have explored all zones AND curiosity is very low AND energy is low
+    // This prevents premature simulation ending
+    if (wantsNewEnvironment && get_curiosity() < 10 && get_energy() < 30)
     {
-        std::cout << "Explorer " << r_id << " wants to leave the simulation.\n";
+        leaveAttempts++;
+        if (leaveAttempts == 1)  // Only print once
+        {
+            std::cout << "Explorer " << r_id << " wants to leave the simulation.\n";
+        }
+    }
+    else if (!wantsNewEnvironment || get_curiosity() >= 10 || get_energy() >= 30)
+    {
+        leaveAttempts = 0;  // Reset if conditions no longer met
     }
 }
 

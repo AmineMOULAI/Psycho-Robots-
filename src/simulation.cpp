@@ -157,7 +157,8 @@ bool Simulation::checkSimulationComplete()
         {
             totalExplorers++;
             Explorer* e = dynamic_cast<Explorer*>(r);
-            if (e && !e->get_wantsNewEnvironment())
+            // Explorers want to leave when leaveAttempts > 0 (meaning they've decided to leave)
+            if (e && e->get_leaveAttempts() == 0)
             {
                 allExplorersWantToLeave = false;
             }
