@@ -78,6 +78,12 @@ public:
                            const std::vector<Task_t*>& tasks,
                            const std::vector<EZ_t*>& zones);
     
+    // Split layout: left = info (legend, zones, tasks, details, stats), right = grid
+    static void displaySplitLayout(int width, int height,
+                                   const std::vector<Robot*>& robots,
+                                   const std::vector<Task_t*>& tasks,
+                                   const std::vector<EZ_t*>& zones,
+                                   int leftWidth = 60);
     // Robot information
     static void displayRobotStatus(const Robot* robot);
     static void displayAllRobots(const std::vector<Robot*>& robots);
@@ -102,6 +108,8 @@ private:
     static std::string getTaskStatusString(TaskStatus status);
     static std::string getZoneStatusColor(ZoneStatus status);
     static std::string getTaskStatusColor(TaskStatus status);
+    static std::string stripANSI(const std::string& s);
+    static int visibleLength(const std::string& s);
 };
 
 #endif

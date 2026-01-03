@@ -1,4 +1,5 @@
 #include "display_utils.hpp"
+#include <sstream>
 
 void DisplayUtils::clearScreen() {
     std::cout << "\033[2J\033[H";
@@ -7,23 +8,23 @@ void DisplayUtils::clearScreen() {
 void DisplayUtils::displayTitle() {
     clearScreen();
     std::cout << Colors::BOLD << Colors::BRIGHT_CYAN 
-              << "╔══════════════════════════════════════════════════════════════╗\n"
-              << "║         🤖 PSYCHOROBOTS - SIMULATION DISPLAY 🤖             ║\n"
-              << "╚══════════════════════════════════════════════════════════════╝"
+              << "===============================================================\n"
+              << "         PSYCHOROBOTS - SIMULATION DISPLAY                    \n"
+              << "==============================================================="
               << Colors::RESET << "\n\n";
 }
 
 void DisplayUtils::displayLegend() {
-    std::cout << Colors::BRIGHT_WHITE << "\n━━━ LEGEND ━━━\n" << Colors::RESET;
+    std::cout << Colors::BRIGHT_WHITE << "\n--- LEGEND ---\n" << Colors::RESET;
     std::cout << "  " << Colors::BRIGHT_MAGENTA << "S" << Colors::RESET 
-              << " = Social Robot  │  ";
+              << " = Social Robot  |  ";
     std::cout << Colors::BRIGHT_YELLOW << "W" << Colors::RESET 
-              << " = Worker Robot  │  ";
+              << " = Worker Robot  |  ";
     std::cout << Colors::BRIGHT_CYAN << "E" << Colors::RESET 
               << " = Explorer Robot\n";
-    std::cout << "  " << Colors::GREEN << "◆" << Colors::RESET 
-              << " = Exploration Zone  │  ";
-    std::cout << Colors::RED << "◆" << Colors::RESET 
+    std::cout << "  " << Colors::GREEN << "*" << Colors::RESET 
+              << " = Exploration Zone  |  ";
+    std::cout << Colors::RED << "#" << Colors::RESET 
               << " = Task\n\n";
 }
 
@@ -67,13 +68,13 @@ void DisplayUtils::displayGrid(int width, int height,
     }
     
     // Print grid with borders
-    std::cout << Colors::BRIGHT_WHITE << "╔";
-    for (int i = 0; i < width * 2; ++i) std::cout << "═";
-    std::cout << "╗\n" << Colors::RESET;
+    std::cout << Colors::BRIGHT_WHITE << "+";
+    for (int i = 0; i < width * 2; ++i) std::cout << "-";
+    std::cout << "+\n" << Colors::RESET;
     
     // Print grid rows with row numbers
     for (int y = 0; y < height; ++y) {
-        std::cout << Colors::BRIGHT_WHITE << "║" << Colors::RESET;
+        std::cout << Colors::BRIGHT_WHITE << "|" << Colors::RESET;
         for (int x = 0; x < width; ++x) {
             char cell = grid[y][x];
             int type = gridInfo[y][x];
@@ -81,21 +82,21 @@ void DisplayUtils::displayGrid(int width, int height,
             if (type == 3) { // Robot
                 std::cout << Colors::getRobotColor(static_cast<RobotType>(cell - 'A')) << " " << cell << Colors::RESET;
             } else if (type == 1) { // Zone
-                std::cout << Colors::GREEN << " ◆" << Colors::RESET;
+                std::cout << Colors::GREEN << " *" << Colors::RESET;
             } else if (type == 2) { // Task
-                std::cout << Colors::RED << " ◆" << Colors::RESET;
+                std::cout << Colors::RED << " #" << Colors::RESET;
             } else {
                 std::cout << "  ";
             }
         }
-        std::cout << Colors::BRIGHT_WHITE << "║" << Colors::RESET;
+        std::cout << Colors::BRIGHT_WHITE << "|" << Colors::RESET;
         std::cout << " " << y << "\n";
     }
     
     // Print bottom border with column numbers
-    std::cout << Colors::BRIGHT_WHITE << "╚";
-    for (int i = 0; i < width * 2; ++i) std::cout << "═";
-    std::cout << "╝\n" << Colors::RESET;
+    std::cout << Colors::BRIGHT_WHITE << "+";
+    for (int i = 0; i < width * 2; ++i) std::cout << "-";
+    std::cout << "+\n" << Colors::RESET;
     
     std::cout << " ";
     for (int x = 0; x < width; ++x) {
@@ -153,10 +154,10 @@ void DisplayUtils::displayZonesInfo(const std::vector<EZ_t*>& zones) {
             if (zone->status == ZoneStatus::Visited) visitedCount++;
             
             std::cout << "  Zone " << i << ": Position (" 
-                      << zone->location.x << ", " << zone->location.y << ") │ "
+                      << zone->location.x << ", " << zone->location.y << ") | "
                       << getZoneStatusColor(zone->status) 
                       << getZoneStatusString(zone->status) 
-                      << Colors::RESET << " │ ";
+                      << Colors::RESET << " | ";
             
             if (zone->VisitedBy.empty()) {
                 std::cout << "Not visited yet";
@@ -196,13 +197,13 @@ void DisplayUtils::displayTasksInfo(const std::vector<Task_t*>& tasks) {
             }
             
             std::cout << "  Task " << i << ": Position (" 
-                      << task->location.x << ", " << task->location.y << ") │ "
+                      << task->location.x << ", " << task->location.y << ") | "
                       << getTaskStatusColor(task->status) 
                       << getTaskStatusString(task->status) 
                       << Colors::RESET;
             
             if (!task->CompletedBy.empty()) {
-                std::cout << " │ Completed by: ";
+                std::cout << " | Completed by: ";
                 for (size_t j = 0; j < task->CompletedBy.size(); ++j) {
                     std::cout << "Worker#" << task->CompletedBy[j];
                     if (j < task->CompletedBy.size() - 1) std::cout << ", ";
@@ -368,4 +369,83 @@ void DisplayUtils::displayCuriosityBar(int current, int max, int width) {
         else std::cout << "░";
     }
     std::cout << "] " << current << "/" << max << Colors::RESET;
+}
+
+std::string DisplayUtils::stripANSI(const std::string& s) {
+    std::string result;
+    size_t i = 0;
+    while (i < s.length()) {
+        if (s[i] == '\033' && i + 1 < s.length() && s[i + 1] == '[') {
+            i += 2;
+            while (i < s.length() && s[i] != 'm') i++;
+            if (i < s.length()) i++;
+        } else {
+            result += s[i];
+            i++;
+        }
+    }
+    return result;
+}
+
+int DisplayUtils::visibleLength(const std::string& s) {
+    return stripANSI(s).length();
+}
+
+void DisplayUtils::displaySplitLayout(int width, int height,
+                                      const std::vector<Robot*>& robots,
+                                      const std::vector<Task_t*>& tasks,
+                                      const std::vector<EZ_t*>& zones,
+                                      int leftWidth) {
+    // Print title once (clears screen)
+    DisplayUtils::displayTitle();
+
+    // Capture right (grid) output
+    std::ostringstream rightSS;
+    std::streambuf* oldBuf = std::cout.rdbuf(rightSS.rdbuf());
+    DisplayUtils::displayGrid(width, height, robots, tasks, zones);
+    std::cout.rdbuf(oldBuf);
+
+    // Capture left (info) output
+    std::ostringstream leftSS;
+    oldBuf = std::cout.rdbuf(leftSS.rdbuf());
+    DisplayUtils::displayLegend();
+    DisplayUtils::displayZonesInfo(zones);
+    DisplayUtils::displayTasksInfo(tasks);
+    DisplayUtils::displayAllRobots(robots);
+    DisplayUtils::displayStats(robots, zones, tasks);
+    std::cout.rdbuf(oldBuf);
+
+    // Split into lines
+    auto splitLines = [](const std::string &s){
+        std::vector<std::string> lines;
+        std::istringstream iss(s);
+        std::string line;
+        while (std::getline(iss, line)) lines.push_back(line);
+        return lines;
+    };
+
+    std::vector<std::string> L = splitLines(leftSS.str());
+    std::vector<std::string> R = splitLines(rightSS.str());
+
+    size_t total = std::max(L.size(), R.size());
+    for (size_t i = 0; i < total; ++i) {
+        std::string leftLine = (i < L.size()) ? L[i] : std::string("");
+        int visLen = visibleLength(leftLine);
+        
+        // Truncate or pad based on visible length (ignoring ANSI codes)
+        if (visLen < leftWidth) {
+            leftLine += std::string(leftWidth - visLen, ' ');
+        } else if (visLen > leftWidth) {
+            // Truncate while preserving ANSI codes
+            std::string plain = stripANSI(leftLine);
+            if ((int)plain.length() > leftWidth) {
+                plain = plain.substr(0, leftWidth);
+                leftLine = plain;
+            }
+        }
+
+        std::string rightLine = (i < R.size()) ? R[i] : std::string("");
+
+        std::cout << leftLine << "  " << rightLine << "\n";
+    }
 }

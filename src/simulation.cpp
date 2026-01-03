@@ -97,25 +97,8 @@ void Simulation::init()
 };
 
 void Simulation::display_state() {
-    DisplayUtils::displayTitle();
-    
-    // Display grid
-    DisplayUtils::displayGrid(G, G, robots, tasks, explorationZone);
-    
-    // Display legend
-    DisplayUtils::displayLegend();
-    
-    // Display zones information
-    DisplayUtils::displayZonesInfo(explorationZone);
-    
-    // Display tasks information
-    DisplayUtils::displayTasksInfo(tasks);
-    
-    // Display individual robot stats
-    DisplayUtils::displayAllRobots(robots);
-    
-    // Display simulation stats
-    DisplayUtils::displayStats(robots, explorationZone, tasks);
+    // Display split layout: left = info, right = grid
+    DisplayUtils::displaySplitLayout(G, G, robots, tasks, explorationZone, 40);
 }
 
 void Simulation::run_step()
