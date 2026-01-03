@@ -223,6 +223,35 @@ bool Simulation::checkSimulationComplete()
     }
 
     // NORMAL CASE: Mixed robot types - check all three conditions
+    
+    // Check if all tasks are completed (for workers auto-resign)
+    bool allTasksCompleted = true;
+    for (Task_t* t : this->tasks)
+    {
+        if (t->status != TaskStatus::Completed)
+        {
+            allTasksCompleted = false;
+            break;
+        }
+    }
+    
+    // If all tasks completed and we have workers, force them to resign
+    if (allTasksCompleted && totalWorkers > 0)
+    {
+        for (Robot* r : this->robots)
+        {
+            if (r->get_type() == RobotType::Worker)
+            {
+                Worker* w = dynamic_cast<Worker*>(r);
+                if (w && !w->get_hasResigned())
+                {
+                    w->resign();
+                    std::cout << "Worker " << w->get_id() << " resigned (all tasks completed).\n";
+                }
+            }
+        }
+    }
+    
     // Condition 1: Check if all workers have resigned
     bool allWorkersResigned = true;
     for (Robot* r : this->robots)
