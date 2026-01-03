@@ -7,8 +7,12 @@
             *  It is less stressed, more energetic and curious to discover other robots in the environemment.
         * Worker : A robot which is stressed by work - tasks that it tries to complete during its existance in the simulation.
             * More stressed and more energetic than others.
+            * Now completes tasks, gains points, decreases stress after completion
+            * Resigns when energy depletes or all tasks are completed
         * Explorer : A chill Robot... it is made just to discover and to share informations.
             * Chill , more curious and energetic to travel all around the environemment
+            * Explores zones, shares zone information with other robots
+            * Leaves simulation when all zones explored and curiosity depleted
 
 
 ## Behaviour 
@@ -41,3 +45,74 @@
                 - Stress decreases after an interaction 
                 - Curiosity increases with other robots.
                 - Energy increases with others while it's decreasing with mouvement.
+
+        > Worker : Focus on task completion
+            * Behaviour:
+                - Scan environment for pending tasks
+                - Move towards nearest pending task
+                - Complete task when within interaction distance
+                - Gain points and decrease stress after completion
+                - Increase curiosity after successful task completion
+            
+            * Resignation triggers:
+                - When energy reaches 0
+                - When all tasks in simulation are completed
+                - Stops working and becomes inactive
+            
+            * Social Interaction:
+                - When interacting with social robots
+                - Transmit information about completed tasks
+                - Share task knowledge
+
+        > Explorer : Discover and explore zones
+            * Behaviour:
+                - Scan environment for exploration zones
+                - Visit zones within exploration distance
+                - Mark zones as visited and record in personal history
+                - Build knowledge of zone locations
+            
+            * Zone Management:
+                - Track all visited zones
+                - Record which zones have been explored
+                - Share zone information during social interactions
+            
+            * Leave Mechanism:
+                - When ALL zones are explored: set wantsNewEnvironment = true
+                - When curiosity reaches 0: immediately wants to leave (leaveAttempts++)
+                - When curiosity < 10 AND energy < 30: also wants to leave
+                - Once decided to leave, generates leaveAttempts counter
+            
+            * Curiosity Loss:
+                - Loses EXPLORER_CURIOSITY_LOSS (10) points when all zones explored
+                - Eventually reaches 0 if exploring nothing new
+                - 0 curiosity triggers immediate leave signal
+
+
+## Simulation Completion Logic
+
+    * The simulation ends when specific conditions are met based on robot composition:
+
+        1. WORKERS ONLY (No Explorers/Social):
+            - All tasks must be completed
+            - All workers automatically resign
+            - Simulation ends after minimum 10 steps
+
+        2. EXPLORERS ONLY (No Workers/Social):
+            - All zones must be visited
+            - All explorers set leaveAttempts = 1 (want to leave)
+            - Simulation ends after minimum 10 steps
+
+        3. MIXED ROBOTS (Workers + Explorers + Social):
+            All three conditions MUST be met:
+            - ALL workers have resigned
+              (either energy = 0 OR all tasks completed)
+            - ALL explorers have leaveAttempts > 0
+              (triggered when curiosity = 0)
+            - ALL social robots have 0 connected robots
+              (no successful interactions completed)
+            - AND simulation has run for > 10 steps
+
+    * Debug Output:
+        - Shows which completion conditions are satisfied when ending
+        - Displays reason for each robot type's state
+        - Total steps executed during simulation
