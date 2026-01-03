@@ -21,7 +21,7 @@
                 * A curious robot never stops exploring the environemment. 
         * It can interact in a certain way with other robots.
     
-        * Social : Find a robot and try to interact with it 
+        > Social : Find a robot and try to interact with it 
             * Mouvement based on the position of other robots 
                 - Acheive the closest robot to make an interact
                 

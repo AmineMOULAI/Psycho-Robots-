@@ -55,9 +55,11 @@ void Social::handle_call_protocol(Robot* target)
             int it = get_interactionTimer();
             if (it > 0) set_interactionTimer(it - 1);
             else{
+                interact(*target);
                 target->set_state(RobotState::Free);
     
-                set_socialState(CallState::Idle);
+                set_socialState(CallState::Waiting);
+                set_waitTimer(10);
                 set_hasTarget(false);
             }
             
@@ -93,7 +95,7 @@ void Social::update(std::vector<Robot*>& allRobots)
 
 
 void Social::interact(Robot& r) { 
-    std::cout << "Social interacts with "; 
+    std::cout << "Social " << get_id() << " interacts with "; 
     switch (r.get_type())
     {
     case RobotType::Social:
@@ -110,6 +112,16 @@ void Social::interact(Robot& r) {
         break;
     }  
     std::cout << r.get_id() << " !\n";
+
+    // Apply state changes to social robot
+    set_stress(get_stress() - 5);
+    set_energy(get_energy() + 3);
+    set_curiosity(get_curiosity() + 3);
+
+    // Apply state changes to the other robot
+    r.set_stress(r.get_stress() - 5);
+    r.set_energy(r.get_energy() + 3);
+    r.set_curiosity(r.get_curiosity() + 3);
 };
 
 void Social::move(){

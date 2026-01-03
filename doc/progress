@@ -59,3 +59,16 @@
     * Move the Robots randomly, without purpose, in 4 directions (N, S, E, W)
     * Update movement, add 4 directions (N, S, E, W, NE, NW, SE, SW)
 
+## December updates
+    * Manage energy in movement for Robot
+    * Add a rest time for Robot and energy renewal
+    > Social Logic 
+        * Add target concept to communicate with other Robots
+            * Analyse the environnement, sort targets and select a robot based on some criteria.
+        * Connect Social with others via CALL/RESPONSE Protocol
+            * Add states to Robots and state for Call
+            * Add CALL functionnality for Social and RESPONSE mecanisme to all ALL Robots.
+            * handle CALL/RESPONSE Protocol 
+
+
+
