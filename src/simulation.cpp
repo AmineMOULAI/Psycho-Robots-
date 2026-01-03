@@ -97,45 +97,25 @@ void Simulation::init()
 };
 
 void Simulation::display_state() {
-    DisplayUtils::clearScreen();
-    
-    // Display title
-    std::cout << Colors::BOLD << Colors::BRIGHT_CYAN 
-              << "╔════════════════════════════════════════════════════════╗\n"
-              << "║         PSYCHOROBOTS - SIMULATION DISPLAY             ║\n"
-              << "╚════════════════════════════════════════════════════════╝"
-              << Colors::RESET << "\n\n";
-    
-    // Display grid
+    // Restore original display sequence: title, grid, legend, zones, tasks, robots, stats
+    DisplayUtils::displayTitle();
     DisplayUtils::displayGrid(G, G, robots, tasks, explorationZone);
-    
-    // Display legend
-    std::cout << "\n" << Colors::BRIGHT_WHITE << "LEGEND:" << Colors::RESET << "\n";
-    std::cout << "  " << Colors::BRIGHT_MAGENTA << "S" << Colors::RESET 
-              << " = Social Robot\n";
-    std::cout << "  " << Colors::BRIGHT_YELLOW << "W" << Colors::RESET 
-              << " = Worker Robot\n";
-    std::cout << "  " << Colors::BRIGHT_CYAN << "E" << Colors::RESET 
-              << " = Explorer Robot\n";
-    std::cout << "  " << Colors::RED << "T" << Colors::RESET 
-              << " = Task\n";
-    std::cout << "  " << Colors::GREEN << "Z" << Colors::RESET 
-              << " = Exploration Zone\n\n";
-    
-    // Display individual robot stats
-    std::cout << Colors::BOLD << Colors::BRIGHT_WHITE 
-              << "ROBOT DETAILS:" << Colors::RESET << "\n";
-    std::cout << Colors::WHITE << std::string(60, '─') << Colors::RESET << "\n";
-    for (Robot* r : robots) {
-        DisplayUtils::displayRobotStatus(r);
-    }
-    
-    // Display simulation stats
-    DisplayUtils::displayStats(robots);
+    DisplayUtils::displayLegend();
+    DisplayUtils::displayZonesInfo(explorationZone);
+    DisplayUtils::displayTasksInfo(tasks);
+    DisplayUtils::displayAllRobots(robots);
+    DisplayUtils::displayStats(robots, explorationZone, tasks);
 }
 
 void Simulation::run_step()
 {
     std::vector<Robot*> allRobots = this->get_robots();
-    for (Robot* r : this->robots){r->update(allRobots);}; 
+    for (Robot* r : this->robots){
+        r->update(allRobots);
+        if (r->get_type() == RobotType::Explorer)
+        {
+            Explorer* e = dynamic_cast<Explorer*>(r);
+            if (e) e->explore(this->explorationZone);
+        }
+    };
 }

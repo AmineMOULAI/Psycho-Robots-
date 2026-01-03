@@ -16,7 +16,7 @@ class Simulation
         std::vector<Task_t*> tasks;
         std::vector<EZ_t*> explorationZone;
         int step;
-        
+        std::vector<int> lastMoved;
     public:
         Simulation(int w, int h) : width(w), height(h), robots{}, tasks{}, explorationZone{}, step(0) {};
         ~Simulation() {};
