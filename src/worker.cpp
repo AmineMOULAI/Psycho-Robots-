@@ -15,7 +15,6 @@ void Worker::completeTask(std::vector<Task_t*>& tasks)
     // Find nearest pending task
     Task_t* nearestTask = nullptr;
     double minDistance = std::numeric_limits<double>::max();
-    int taskIndex = -1;
 
     for (size_t i = 0; i < tasks.size(); i++)
     {
@@ -26,7 +25,6 @@ void Worker::completeTask(std::vector<Task_t*>& tasks)
             {
                 minDistance = distance;
                 nearestTask = tasks[i];
-                taskIndex = i;
             }
         }
     }
