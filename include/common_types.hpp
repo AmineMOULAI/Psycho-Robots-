@@ -18,6 +18,8 @@ constexpr int EXPLORER_ENERGY = 90;
 constexpr int EXPLORER_CURIOSITY = 90;
 
 constexpr int EZ_PER_EXPLORER = 2;
+constexpr double EXPLORER_ZONE_VISIT_DISTANCE = 3.0;
+constexpr int EXPLORER_CURIOSITY_LOSS = 10;
 
 // Worker constants
 constexpr int WORKER_STRESS = 50;

@@ -137,5 +137,12 @@ void Simulation::display_state() {
 void Simulation::run_step()
 {
     std::vector<Robot*> allRobots = this->get_robots();
-    for (Robot* r : this->robots){r->update(allRobots);}; 
+    for (Robot* r : this->robots){
+        r->update(allRobots);
+        if (r->get_type() == RobotType::Explorer)
+        {
+            Explorer* e = dynamic_cast<Explorer*>(r);
+            if (e) e->explore(this->explorationZone);
+        }
+    };
 }
