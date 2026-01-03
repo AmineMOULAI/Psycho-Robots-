@@ -130,14 +130,105 @@ void Simulation::run_step()
 
 bool Simulation::checkSimulationComplete()
 {
+    int totalWorkers = 0;
+    int totalExplorers = 0;
+    int totalSocial = 0;
+
+    // Count robot types
+    for (Robot* r : this->robots)
+    {
+        if (r->get_type() == RobotType::Worker) totalWorkers++;
+        else if (r->get_type() == RobotType::Explorer) totalExplorers++;
+        else if (r->get_type() == RobotType::Social) totalSocial++;
+    }
+
+    // EDGE CASE 1: Only workers, no explorers/social
+    if (totalWorkers > 0 && totalExplorers == 0 && totalSocial == 0)
+    {
+        // Check if all tasks are completed
+        bool allTasksCompleted = true;
+        for (Task_t* t : this->tasks)
+        {
+            if (t->status != TaskStatus::Completed)
+            {
+                allTasksCompleted = false;
+                break;
+            }
+        }
+
+        // If all tasks done, workers should resign
+        if (allTasksCompleted)
+        {
+            for (Robot* r : this->robots)
+            {
+                if (r->get_type() == RobotType::Worker)
+                {
+                    Worker* w = dynamic_cast<Worker*>(r);
+                    if (w && !w->get_hasResigned())
+                    {
+                        w->resign();
+                        std::cout << "Worker " << w->get_id() << " resigned (all tasks completed).\n";
+                    }
+                }
+            }
+            if (this->step > 10)
+            {
+                std::cout << "[SIMULATION END] All tasks completed, all workers resigned.\n";
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // EDGE CASE 2: Only explorers, no workers/social
+    if (totalExplorers > 0 && totalWorkers == 0 && totalSocial == 0)
+    {
+        // Check if all zones are explored
+        bool allZonesExplored = true;
+        for (EZ_t* z : this->explorationZone)
+        {
+            if (z->status != ZoneStatus::Visited)
+            {
+                allZonesExplored = false;
+                break;
+            }
+        }
+
+        // If all zones explored, explorers should want to leave
+        if (allZonesExplored)
+        {
+            for (Robot* r : this->robots)
+            {
+                if (r->get_type() == RobotType::Explorer)
+                {
+                    Explorer* e = dynamic_cast<Explorer*>(r);
+                    if (e)
+                    {
+                        e->set_wantsNewEnvironment(true);
+                        if (e->get_leaveAttempts() == 0)
+                        {
+                            e->set_leaveAttempts(1);
+                            std::cout << "Explorer " << e->get_id() << " explored all zones and wants to leave.\n";
+                        }
+                    }
+                }
+            }
+            if (this->step > 10)
+            {
+                std::cout << "[SIMULATION END] All zones explored, all explorers want to leave.\n";
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // NORMAL CASE: Mixed robot types - check all three conditions
     // Condition 1: Check if all workers have resigned
     bool allWorkersResigned = true;
-    int totalWorkers = 0;
     for (Robot* r : this->robots)
     {
         if (r->get_type() == RobotType::Worker)
         {
-            totalWorkers++;
             Worker* w = dynamic_cast<Worker*>(r);
             if (w && !w->get_hasResigned())
             {
@@ -145,36 +236,29 @@ bool Simulation::checkSimulationComplete()
             }
         }
     }
-    // If no workers exist, consider this condition satisfied
     if (totalWorkers == 0) allWorkersResigned = true;
 
     // Condition 2: Check if all explorers want to leave
     bool allExplorersWantToLeave = true;
-    int totalExplorers = 0;
     for (Robot* r : this->robots)
     {
         if (r->get_type() == RobotType::Explorer)
         {
-            totalExplorers++;
             Explorer* e = dynamic_cast<Explorer*>(r);
-            // Explorers want to leave when leaveAttempts > 0 (meaning they've decided to leave)
             if (e && e->get_leaveAttempts() == 0)
             {
                 allExplorersWantToLeave = false;
             }
         }
     }
-    // If no explorers exist, consider this condition satisfied
     if (totalExplorers == 0) allExplorersWantToLeave = true;
 
     // Condition 3: Check if social robots have 0 interactions
     bool socialRobotsHaveZeroInteractions = true;
-    int totalSocial = 0;
     for (Robot* r : this->robots)
     {
         if (r->get_type() == RobotType::Social)
         {
-            totalSocial++;
             Social* s = dynamic_cast<Social*>(r);
             if (s && s->get_connectedRobots() > 0)
             {
@@ -182,7 +266,6 @@ bool Simulation::checkSimulationComplete()
             }
         }
     }
-    // If no social robots exist, consider this condition satisfied
     if (totalSocial == 0) socialRobotsHaveZeroInteractions = true;
 
     // All conditions must be met AND we need at least some steps

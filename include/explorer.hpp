@@ -23,6 +23,9 @@ class Explorer : public Robot
     bool get_wantsNewEnvironment() const { return wantsNewEnvironment; }
     const std::vector<EZ_t*>& get_knownZones() const { return knownZones; }
 
+    void set_wantsNewEnvironment(bool wants) { wantsNewEnvironment = wants; }
+    void set_leaveAttempts(int attempts) { leaveAttempts = attempts; }
+
     bool respondTo(Robot& caller) override;
     void update(std::vector<Robot*>& allRobots) override;
     void interact(Robot& r) override;
