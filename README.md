@@ -41,13 +41,6 @@ make clean        # Clean build files
 **Explorers Only**: All zones visited → explorers leave → end
 **Mixed Robots**: All resign + all explorers leave + socials isolated (0 interactions) → end
 
-## Recent Updates (Jan 3, 2026)
-
-✅ Worker task completion and resignation logic
-✅ Explorer curiosity depletion triggers leave
-✅ Stats clamping (0-100 range)
-✅ Automatic simulation completion detection
-✅ Bug fixes for premature exits
 
 ## Project Structure
 
@@ -61,7 +54,7 @@ Makefile  - Build configuration
 ## Configuration
 
 Key constants in `common_types.hpp`:
-- Grid: 30x30
+- Grid: NxN
 - Tasks/Worker: 3
 - Zones/Explorer: 2
 - Interaction distance: 1.0
@@ -72,3 +65,61 @@ Key constants in `common_types.hpp`:
 - Advanced AI learning
 - Team cooperation
 - GUI visualization
+
+### Planned Features
+
+**Graphics & Visualization**
+- OpenGL/SDL2 graphical visualization
+- 3D environment rendering
+- Real-time animation of robot movements
+- Interactive visual debugger
+
+**New Robot Types**
+- Soldiers/Guards: Protective units, patrol areas
+- Traders: Exchange resources, merchant activity
+- Teachers: Transfer knowledge to other robots
+- Scouts: Quick explorers with lower energy cost
+
+**Communication System**
+- Robot-to-robot chat protocol
+- Message broadcasting
+- Information sharing system
+- Gossip/rumor spreading mechanics
+
+**Environment Enhancements**
+- Dynamic obstacles (static/moving)
+- Multiple environment levels/maps
+- Portal system for zone transitions
+- Dynamically generated environments
+
+**Economy System**
+- Boss/Company entities that hire workers
+- Salary and payment system
+- Job contracts and negotiations
+- Worker skill progression
+- Career advancement mechanics
+
+**Learning & Training**
+- Virtual labs for robot behavior training
+- Machine learning integration
+- Reinforcement learning for optimal strategies
+- Genetic algorithms for population evolution
+
+**Activity Expansion**
+- Trading posts and markets
+- Resource gathering and management
+- Colony building mechanics
+- Team formation and roles
+- Hierarchy and leadership systems
+- Achievement/quest system
+
+**Advanced Mechanics**
+- Conflict resolution between robots
+- Cooperation bonuses for group work
+- Reputation system
+- Aging and robot lifecycle
+- Reproduction/robot creation
+- Emotional states beyond stress/curiosity
+- Memory and historical tracking
+
+# TOO BE CONTINUED...
