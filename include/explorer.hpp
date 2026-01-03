@@ -13,17 +13,13 @@ class Explorer : public Robot
         std::vector<pos_t> exploredZones;
         std::vector<EZ_t*> knownZones;
         bool wantsNewEnvironment;
-        bool hasLeft;
     public:
-        Explorer(pos_t p) : Robot(RobotType::Explorer, p, EXPLORER_STRESS, EXPLORER_ENERGY, EXPLORER_CURIOSITY), exploredZones{}, knownZones{}, wantsNewEnvironment(false), hasLeft(false) {};
+        Explorer(pos_t p) : Robot(RobotType::Explorer, p, EXPLORER_STRESS, EXPLORER_ENERGY, EXPLORER_CURIOSITY), exploredZones{}, knownZones{}, wantsNewEnvironment(false) {};
         ~Explorer(){};
 
     int get_exploredZones() const {return exploredZones.size();};
     bool get_wantsNewEnvironment() const { return wantsNewEnvironment; }
     const std::vector<EZ_t*>& get_knownZones() const { return knownZones; }
-    bool get_hasLeft() const { return hasLeft; }
-
-    void setHasLeft(bool left) { hasLeft = left; }
 
     bool respondTo(Robot& caller) override;
     void update(std::vector<Robot*>& allRobots) override;

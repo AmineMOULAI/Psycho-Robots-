@@ -130,53 +130,73 @@ void Simulation::run_step()
 
 bool Simulation::checkSimulationComplete()
 {
-    // Check if all workers have resigned
+    // Condition 1: Check if all workers have resigned
     bool allWorkersResigned = true;
+    int totalWorkers = 0;
     for (Robot* r : this->robots)
     {
         if (r->get_type() == RobotType::Worker)
         {
+            totalWorkers++;
             Worker* w = dynamic_cast<Worker*>(r);
             if (w && !w->get_hasResigned())
             {
                 allWorkersResigned = false;
-                break;
             }
         }
     }
+    // If no workers exist, consider this condition satisfied
+    if (totalWorkers == 0) allWorkersResigned = true;
 
-    // Check if all explorers have left (demand of leaving)
-    bool allExplorersLeft = true;
+    // Condition 2: Check if all explorers want to leave
+    bool allExplorersWantToLeave = true;
+    int totalExplorers = 0;
     for (Robot* r : this->robots)
     {
         if (r->get_type() == RobotType::Explorer)
         {
-            // Explorers leave if they have low energy or high curiosity satisfied
+            totalExplorers++;
             Explorer* e = dynamic_cast<Explorer*>(r);
-            if (e && e->get_energy() > 20 && !e->get_hasLeft())
+            if (e && !e->get_wantsNewEnvironment())
             {
-                allExplorersLeft = false;
-                break;
+                allExplorersWantToLeave = false;
             }
         }
     }
+    // If no explorers exist, consider this condition satisfied
+    if (totalExplorers == 0) allExplorersWantToLeave = true;
 
-    // Check if social robots feel lonely (no interactions)
-    bool socialRobotsLonely = true;
+    // Condition 3: Check if social robots have 0 interactions
+    bool socialRobotsHaveZeroInteractions = true;
+    int totalSocial = 0;
     for (Robot* r : this->robots)
     {
         if (r->get_type() == RobotType::Social)
         {
-            // For now, assume socials feel lonely if curiosity is too low (no interactions)
-            if (r->get_curiosity() > 50)
+            totalSocial++;
+            Social* s = dynamic_cast<Social*>(r);
+            if (s && s->get_connectedRobots() > 0)
             {
-                socialRobotsLonely = false;
-                break;
+                socialRobotsHaveZeroInteractions = false;
             }
         }
     }
+    // If no social robots exist, consider this condition satisfied
+    if (totalSocial == 0) socialRobotsHaveZeroInteractions = true;
 
-    return allWorkersResigned && allExplorersLeft && socialRobotsLonely;
+    // All conditions must be met AND we need at least some steps
+    bool isComplete = allWorkersResigned && allExplorersWantToLeave && socialRobotsHaveZeroInteractions && this->step > 10;
+
+    if (isComplete)
+    {
+        std::cout << "\n[SIMULATION COMPLETION CONDITIONS MET]\n";
+        std::cout << "All workers resigned: " << (allWorkersResigned ? "YES" : "NO") << "\n";
+        std::cout << "All explorers want to leave: " << (allExplorersWantToLeave ? "YES" : "NO") << "\n";
+        std::cout << "Social robots have 0 interactions: " << (socialRobotsHaveZeroInteractions ? "YES" : "NO") << "\n";
+        std::cout << "Total steps: " << this->step << "\n\n";
+    }
+
+    return isComplete;
 }
 
 void Simulation::displayFinalReport()
