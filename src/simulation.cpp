@@ -97,41 +97,25 @@ void Simulation::init()
 };
 
 void Simulation::display_state() {
-    DisplayUtils::clearScreen();
-    
-    // Display title
-    std::cout << Colors::BOLD << Colors::BRIGHT_CYAN 
-              << "╔════════════════════════════════════════════════════════╗\n"
-              << "║         PSYCHOROBOTS - SIMULATION DISPLAY             ║\n"
-              << "╚════════════════════════════════════════════════════════╝"
-              << Colors::RESET << "\n\n";
+    DisplayUtils::displayTitle();
     
     // Display grid
     DisplayUtils::displayGrid(G, G, robots, tasks, explorationZone);
     
     // Display legend
-    std::cout << "\n" << Colors::BRIGHT_WHITE << "LEGEND:" << Colors::RESET << "\n";
-    std::cout << "  " << Colors::BRIGHT_MAGENTA << "S" << Colors::RESET 
-              << " = Social Robot\n";
-    std::cout << "  " << Colors::BRIGHT_YELLOW << "W" << Colors::RESET 
-              << " = Worker Robot\n";
-    std::cout << "  " << Colors::BRIGHT_CYAN << "E" << Colors::RESET 
-              << " = Explorer Robot\n";
-    std::cout << "  " << Colors::RED << "T" << Colors::RESET 
-              << " = Task\n";
-    std::cout << "  " << Colors::GREEN << "Z" << Colors::RESET 
-              << " = Exploration Zone\n\n";
+    DisplayUtils::displayLegend();
+    
+    // Display zones information
+    DisplayUtils::displayZonesInfo(explorationZone);
+    
+    // Display tasks information
+    DisplayUtils::displayTasksInfo(tasks);
     
     // Display individual robot stats
-    std::cout << Colors::BOLD << Colors::BRIGHT_WHITE 
-              << "ROBOT DETAILS:" << Colors::RESET << "\n";
-    std::cout << Colors::WHITE << std::string(60, '─') << Colors::RESET << "\n";
-    for (Robot* r : robots) {
-        DisplayUtils::displayRobotStatus(r);
-    }
+    DisplayUtils::displayAllRobots(robots);
     
     // Display simulation stats
-    DisplayUtils::displayStats(robots);
+    DisplayUtils::displayStats(robots, explorationZone, tasks);
 }
 
 void Simulation::run_step()
