@@ -57,9 +57,9 @@ class Robot
         void set_targetPos(const pos_t& p) {targetPos = p;}
 
         void set_state(RobotState l) {state = l;}
-        void set_stress(int s) {stress = s;}
-        void set_energy(int e) {energy = e;}
-        void set_curiosity(int c) {curiosity = c;}
+        void set_stress(int s) {stress = std::max(0, std::min(100, s));}
+        void set_energy(int e) {energy = std::max(0, std::min(100, e));}
+        void set_curiosity(int c) {curiosity = std::max(0, std::min(100, c));}
         
         // Call/Response Protocol
         virtual bool respondTo(Robot& caller) = 0;
