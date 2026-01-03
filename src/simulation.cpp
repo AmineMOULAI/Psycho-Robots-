@@ -117,5 +117,153 @@ void Simulation::run_step()
             Explorer* e = dynamic_cast<Explorer*>(r);
             if (e) e->explore(this->explorationZone);
         }
+        else if (r->get_type() == RobotType::Worker)
+        {
+            Worker* w = dynamic_cast<Worker*>(r);
+            if (w && w->get_isWorking()) w->completeTask(this->tasks);
+        }
     };
+    
+    this->step++;
+    this->isSimulationComplete = this->checkSimulationComplete();
+}
+
+bool Simulation::checkSimulationComplete()
+{
+    // Check if all workers have resigned
+    bool allWorkersResigned = true;
+    for (Robot* r : this->robots)
+    {
+        if (r->get_type() == RobotType::Worker)
+        {
+            Worker* w = dynamic_cast<Worker*>(r);
+            if (w && !w->get_hasResigned())
+            {
+                allWorkersResigned = false;
+                break;
+            }
+        }
+    }
+
+    // Check if all explorers have left (demand of leaving)
+    bool allExplorersLeft = true;
+    for (Robot* r : this->robots)
+    {
+        if (r->get_type() == RobotType::Explorer)
+        {
+            // Explorers leave if they have low energy or high curiosity satisfied
+            Explorer* e = dynamic_cast<Explorer*>(r);
+            if (e && e->get_energy() > 20 && !e->get_hasLeft())
+            {
+                allExplorersLeft = false;
+                break;
+            }
+        }
+    }
+
+    // Check if social robots feel lonely (no interactions)
+    bool socialRobotsLonely = true;
+    for (Robot* r : this->robots)
+    {
+        if (r->get_type() == RobotType::Social)
+        {
+            // For now, assume socials feel lonely if curiosity is too low (no interactions)
+            if (r->get_curiosity() > 50)
+            {
+                socialRobotsLonely = false;
+                break;
+            }
+        }
+    }
+
+    return allWorkersResigned && allExplorersLeft && socialRobotsLonely;
+}
+
+void Simulation::displayFinalReport()
+{
+    std::cout << "\n\n";
+    std::cout << "╔════════════════════════════════════════════════════════════════╗\n";
+    std::cout << "║          PSYCHOROBOTS FINAL SIMULATION REPORT                  ║\n";
+    std::cout << "╚════════════════════════════════════════════════════════════════╝\n\n";
+
+    std::cout << "Total Steps Executed: " << this->step << "\n\n";
+
+    // Sort robots by type and display achievements
+    std::cout << "═══════════════════════════════════════════════════════════════\n";
+    std::cout << "WORKERS ACHIEVEMENTS:\n";
+    std::cout << "═══════════════════════════════════════════════════════════════\n";
+    for (Robot* r : this->robots)
+    {
+        if (r->get_type() == RobotType::Worker)
+        {
+            Worker* w = dynamic_cast<Worker*>(r);
+            if (w)
+            {
+                std::cout << "Worker " << w->get_id() << ":\n";
+                std::cout << "  - Tasks Completed: " << w->get_completedTasks() << "\n";
+                std::cout << "  - Points Earned: " << w->get_points() << "\n";
+                std::cout << "  - Final Stress: " << w->get_stress() << "\n";
+                std::cout << "  - Final Energy: " << w->get_energy() << "\n";
+                std::cout << "  - Final Curiosity: " << w->get_curiosity() << "\n";
+                std::cout << "\n";
+            }
+        }
+    }
+
+    std::cout << "═══════════════════════════════════════════════════════════════\n";
+    std::cout << "EXPLORERS ACHIEVEMENTS:\n";
+    std::cout << "═══════════════════════════════════════════════════════════════\n";
+    for (Robot* r : this->robots)
+    {
+        if (r->get_type() == RobotType::Explorer)
+        {
+            Explorer* e = dynamic_cast<Explorer*>(r);
+            if (e)
+            {
+                std::cout << "Explorer " << e->get_id() << ":\n";
+                std::cout << "  - Zones Visited: " << e->get_exploredZones() << "\n";
+                std::cout << "  - Final Stress: " << e->get_stress() << "\n";
+                std::cout << "  - Final Energy: " << e->get_energy() << "\n";
+                std::cout << "  - Final Curiosity: " << e->get_curiosity() << "\n";
+                std::cout << "\n";
+            }
+        }
+    }
+
+    std::cout << "═══════════════════════════════════════════════════════════════\n";
+    std::cout << "SOCIAL ROBOTS ACHIEVEMENTS:\n";
+    std::cout << "═══════════════════════════════════════════════════════════════\n";
+    for (Robot* r : this->robots)
+    {
+        if (r->get_type() == RobotType::Social)
+        {
+            std::cout << "Social " << r->get_id() << ":\n";
+            std::cout << "  - Final Stress: " << r->get_stress() << "\n";
+            std::cout << "  - Final Energy: " << r->get_energy() << "\n";
+            std::cout << "  - Final Curiosity: " << r->get_curiosity() << "\n";
+            std::cout << "\n";
+        }
+    }
+
+    std::cout << "═══════════════════════════════════════════════════════════════\n";
+    std::cout << "SIMULATION STATISTICS:\n";
+    std::cout << "═══════════════════════════════════════════════════════════════\n";
+
+    int tasksCompleted = 0;
+    for (Task_t* t : this->tasks)
+    {
+        if (t->status == TaskStatus::Completed) tasksCompleted++;
+    }
+
+    int zonesVisited = 0;
+    for (EZ_t* z : this->explorationZone)
+    {
+        if (z->status == ZoneStatus::Visited) zonesVisited++;
+    }
+
+    std::cout << "Tasks Completed: " << tasksCompleted << " / " << this->tasks.size() << "\n";
+    std::cout << "Zones Explored: " << zonesVisited << " / " << this->explorationZone.size() << "\n";
+    std::cout << "\n╔════════════════════════════════════════════════════════════════╗\n";
+    std::cout << "║                 SIMULATION END                               ║\n";
+    std::cout << "╚════════════════════════════════════════════════════════════════╝\n\n";
 }

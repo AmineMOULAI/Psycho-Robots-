@@ -65,6 +65,13 @@ void Explorer::explore(std::vector<EZ_t*>& explorationZones)
 void Explorer::update(std::vector<Robot*>& allRobots)
 {
     Robot::update(allRobots);
+    
+    // Explorers leave if they want new environment (all zones explored) or energy is too low
+    if ((wantsNewEnvironment && get_curiosity() < 30) || get_energy() <= 0)
+    {
+        hasLeft = true;
+        std::cout << "Explorer " << r_id << " has left the simulation.\n";
+    }
 }
 
 void Explorer::interact(Robot& r)

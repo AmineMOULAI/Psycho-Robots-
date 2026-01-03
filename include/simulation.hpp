@@ -17,17 +17,21 @@ class Simulation
         std::vector<EZ_t*> explorationZone;
         int step;
         std::vector<int> lastMoved;
+        bool isSimulationComplete;
     public:
-        Simulation(int w, int h) : width(w), height(h), robots{}, tasks{}, explorationZone{}, step(0) {};
+        Simulation(int w, int h) : width(w), height(h), robots{}, tasks{}, explorationZone{}, step(0), isSimulationComplete(false) {};
         ~Simulation() {};
 
     void init();
     void display_state();
     void run_step();
+    bool checkSimulationComplete();
+    void displayFinalReport();
 
     const std::vector<Robot*>& get_robots() const {return robots;}
     const std::vector<Task_t*>& get_tasks() const {return tasks;}
     const std::vector<EZ_t*>& get_explorationZone() const {return explorationZone;}
+    bool get_isComplete() const {return isSimulationComplete;}
 };
 
 

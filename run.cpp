@@ -45,7 +45,7 @@ int main()
     Simulation game(G, G);
     
     game.init();
-    while(1)
+    while(!game.get_isComplete())
     {
         game.run_step();
         system("clear");
@@ -55,4 +55,8 @@ int main()
         
     }
     
+    // Display final report after simulation ends
+    game.displayFinalReport();
+    
+    return 0;
 }
