@@ -5,7 +5,7 @@
 
 
 // Simulation Constants
-constexpr int G = 40;
+constexpr int G = 10;
 
 // Social constants
 constexpr int SOCIAL_STRESS = 20;

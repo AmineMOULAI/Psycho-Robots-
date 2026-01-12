@@ -3,7 +3,7 @@
 
     * A robot is the main entity in the simulation, having attributs and methodes.
     * We have 3 types of robots:
-        * Social : A robot which is caracterized with its ability to interact with other other without any difficulties
+        * Social : A robot which is caracterized with its ability to interact with other without any difficulties
             *  It is less stressed, more energetic and curious to discover other robots in the environemment.
         * Worker : A robot which is stressed by work - tasks that it tries to complete during its existance in the simulation.
             * More stressed and more energetic than others.

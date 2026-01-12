@@ -31,7 +31,7 @@ Three robot types operate in a dynamic simulation:
 
 ```bash
 make              # Compile
-./bin/run         # Run simulation
+make start        # Run simulation
 make clean        # Clean build files
 ```
 
